@@ -1,0 +1,80 @@
+{% extends "staff/__base.html" %}
+{% load model_field_names %}
+
+{% block title %}
+<title>Список сотрудников</title>
+{% endblock %}
+
+{% block scripts %}
+$(document).ready(function(){
+	$("tr").click(function(){
+	var cid = $(this).find("td:eq(0)").text();
+	alert(cid);
+	//window.location = "{% url 'index' %}";
+	});
+});
+{% endblock %}
+
+{% block content %}
+
+	<h2>Список сотрудников</h2>
+	<br>
+
+	{% if employee_list %}
+	
+		<!--ul>
+			{% for employee in employee_list %}
+			<li>
+			{{ employee.last_name }} {{ employee.first_name }}, д.р.: {{ employee.date_of_birth|date:'d.m.Y' }}
+			</li>
+			{% endfor %}
+		</ul-->
+		
+		<div class="table-responsive-sm">
+			<table class="table table-hover table-sm">
+			  <!--thead style="background-color: #204B99;color:white;"-->
+			  <thead class="thead-dark">
+				<tr>
+				  {% for field in field_list %}
+				    {% if field.verbose_name == "ID" %}
+					  <th scope="col" style="display:none;">{{ field.verbose_name }}</th>
+					{% else %}
+				      <th scope="col">{{ field.verbose_name }}</th>
+					{% endif %}
+				  {% endfor %}
+				  <!--th scope="col">#</th>
+				  <th scope="col">First</th>
+				  <th scope="col">Last</th>
+				  <th scope="col">Handle</th-->
+				</tr>
+			  </thead>
+			  <tbody>
+				{% for employee in employee_list %}
+				
+				<tr>
+				
+				<!--td>{{ employee.first_name }}</td>
+				<td>{{ employee.last_name }}</td>
+				<td>{{ employee.date_of_birth|date:'d.m.Y' }}</td-->
+				{% for field in field_list %}
+					{% if field.verbose_name == "ID" %}
+						<td style="display:none;">{% get_model_field_value employee field.name %}</td>
+					{% else %}
+						<td>{% get_model_field_value employee field.name %}</td>
+					{% endif %}
+				{% endfor %}
+				
+				</tr>
+				{% endfor %}
+			  </tbody>
+			</table>
+		</div>
+		
+	{% else %}
+		<p>Список сотрудников пуст</p>
+	{% endif %}
+	
+
+	
+	
+{% endblock %}
