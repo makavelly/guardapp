@@ -1,7 +1,7 @@
 from django.shortcuts import render
 # replace Django ListView with our own ListView
 #from django.views.generic import ListView
-from .lib.views import ListView
+from .my_lib.views import ListView
 from .models import Employee
 from .models import PageContent
 from django.forms.models import model_to_dict

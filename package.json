@@ -1,0 +1,14 @@
+{
+  "name": "guardapp",
+  "version": "1.0.0",
+  "description": "webapp for private security companies",
+  "main": "-",
+  "repository": "https://github.com/makavelly/guardapp",
+  "author": "makavely",
+  "license": "MIT",
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "jquery": "^3.3.1",
+    "popper.js": "^1.14.3"
+  }
+}

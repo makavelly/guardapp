@@ -7,7 +7,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<!-- Bootstrap CSS -->
 	{% load staticfiles %}
-	<link rel="stylesheet" href="{% static 'staff/css/bootstrap.min.css' %}" type = "text/css"/>
+	<!--link rel="stylesheet" href="{% static 'staff/css/bootstrap.min.css' %}" type = "text/css"/-->
+	<link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" type = "text/css"/>
 	<!-- Custom styles for this template -->
 	<link rel="stylesheet" href="{% static 'staff/css/sticky-footer.css' %}" />
 
@@ -112,10 +113,14 @@
 	
 	<!-- Bootstrap core JavaScript
     ================================================== -->
-	<script src="{% static 'staff/js/jquery-3.3.1.min.js' %}"></script>
-	<script src="{% static 'staff/js/popper.min.js' %}"></script>
-	<script src="{% static 'staff/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'jquery/dist/jquery.min.js' %}"></script>
+	<script src="{% static 'popper.js/dist/popper.min.js' %}"></script>
+	<script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
 	<script>{% block scripts %}{% endblock %}</script>
+	
+	<!--script src="{% static 'staff/js/jquery-3.3.1.min.js' %}"></script>
+	<script src="{% static 'staff/js/popper.min.js' %}"></script>
+	<script src="{% static 'staff/js/bootstrap.min.js' %}"></script-->
 </body>
 
 </html>

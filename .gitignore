@@ -125,3 +125,6 @@ ENV/
 /staticfiles/
 # Ignore a folder containing css, js, img
 static/
+
+# Ignore packages downloaded with Yarn
+node_modules/
