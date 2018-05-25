@@ -1,0 +1,147 @@
+{% extends "staff/__base.html" %}
+{% load model_field_names %}
+
+{% block title %}
+<title>Информация о сотруднике</title>
+{% endblock %}
+
+
+{% block sidebar %}
+<div class="well bs-sidebar" id="sidebar" >
+  <nav class="nav flex-column">
+    <!--a class="nav-link" data-toggle="pill" href="{% url 'employees' %}">Список сотрудников</a-->
+    <a class="nav-link active"  href="{% url 'employees' %}">Сотрудники</a>
+    <a class="nav-link" href="#">Начальники охраны</a>
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Добавить сотрудника</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="{% url 'employee-create' %}">рядового сотрудника</a>
+      <a class="dropdown-item" href="#">начальника охраны</a>
+    </div>
+
+  </nav>
+</div>
+<br>
+
+{% endblock %}
+
+{% block content %}
+
+  <h2>Информация о сотруднике</h2>
+    <br>
+	<br>
+
+    {% if employee %}
+	  <!--p><strong>ФИО: </strong>{{ employee.last_name }} {{ employee.first_name }} {{ employee.middle_name|default:"" }}</p>
+	  <p><strong>Дата рождения: </strong> {{ employee.date_of_birth|date:'d.m.Y' }}</p>
+	  <p><strong>Номер телефона: </strong> {{ employee.phone_number|default_if_none:"--" }}</p>
+	  <p><strong>Номер паспорта: </strong> {{ employee.passport_number|default_if_none:"--" }}</p>
+	  <p><strong>Кем и когда выдан паспорт: </strong> {{ employee.passport_issued_by|default_if_none:"кем выдан - неизвестно" }}, {{ employee.passport_issue_date|default_if_none:"когда выдан - неизвестно" }}</p>
+	  <p><strong>Адрес: </strong> {{ employee.city|default_if_none:"город неизвестен" }},
+	  {{ employee.street|default_if_none:"улица неизвестна" }},
+	  {{ employee.building|default_if_none:"номер дома неизвестен" }},
+	  {% if employee.wing %}{{ employee.wing }},{% endif %}
+	  {{ employee.apartment|default_if_none:"квартира неизвестна" }}</p-->
+	  
+
+  <div class="row">
+    <div class="col-sm-2">
+      <strong>ФИО: </strong>
+    </div>
+    <div class="col-sm">
+      {{ employee.last_name }} {{ employee.first_name }} {{ employee.middle_name|default:"" }}
+    </div>
+  </div>
+  <hr>
+  
+  <div class="row">
+    <div class="col-sm-2">
+      <strong>Дата рождения: </strong>
+    </div>
+    <div class="col-sm">
+      {{ employee.date_of_birth|date:'d.m.Y' }}
+    </div>
+  </div>
+  <hr>
+  
+  <div class="row">
+    <div class="col-sm-2">
+      <strong>Номер удостоверения: </strong>
+    </div>
+    <div class="col-sm">
+      {{ employee.license_number|default_if_none:"--"|default:"--" }}
+    </div>
+  </div>
+  <hr>
+  
+  <div class="row">
+    <div class="col-sm-2">
+      <strong>Удостоверение действительно до: </strong>
+    </div>
+    <div class="col-sm">
+      {{ employee.license_valid_thru|default_if_none:"--"|default:"--" }}
+    </div>
+  </div>
+  <hr>
+  
+  <div class="row">
+    <div class="col-sm-2">
+      <strong>Номер телефона: </strong>
+    </div>
+    <div class="col-sm">
+      {{ employee.phone_number|default_if_none:"--" }}
+    </div>
+  </div>
+  <hr>
+  
+  <div class="row">
+    <div class="col-sm-2">
+      <strong>Номер паспорта: </strong>
+    </div>
+    <div class="col-sm">
+      {{ employee.passport_number|default_if_none:"--" }}
+    </div>
+  </div>
+  <hr>
+  
+  <div class="row">
+    <div class="col-sm-2">
+      <strong>Кем и когда выдан паспорт: </strong>
+    </div>
+    <div class="col-sm">
+      {{ employee.passport_issued_by|default_if_none:"кем выдан - неизвестно" }}, 
+	  {% if employee.passport_issue_date %}{{ employee.passport_issue_date|date:'d.m.Y' }}{% else %}когда выдан - неизвестно{% endif %}
+    </div>
+  </div>
+  <hr>
+
+  <div class="row">
+    <div class="col-sm-2">
+      <strong>Адрес: </strong>
+    </div>
+    <div class="col-sm">
+      {{ employee.city|default_if_none:"город неизвестен" }}, 
+	  {{ employee.street|default_if_none:"улица неизвестна" }}, 
+	  {{ employee.building|default_if_none:"номер дома неизвестен" }}, 
+	  {% if employee.wing %}{{ employee.wing }}, {% endif %}
+	  {{ employee.apartment|default_if_none:"квартира неизвестна" }}
+    </div>
+  </div>
+  <hr>
+	  
+  <div class="row">
+    <div class="col-sm-2">
+      <a class="btn btn-primary" href="{% url 'employee-update' employee.id %}" role="button">Редактировать</a>
+    </div>
+    <div class="col-sm">
+      <a class="btn btn-secondary" href="{% url 'employees' %}" role="button">Отмена</a>
+    </div>
+  </div>
+
+    {% else %}
+      <p>Информация о сотруднике отсутствует</p>
+    {% endif %}
+	
+
+	
+	
+{% endblock %}

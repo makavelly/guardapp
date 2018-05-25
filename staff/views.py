@@ -1,11 +1,15 @@
 from django.shortcuts import render
 # replace Django ListView with our own ListView
 #from django.views.generic import ListView
+#from django.views.generic import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .my_lib.views import ListView
+from .my_lib.views import DetailView
 from .models import Employee
 from .models import PageContent
 from django.forms.models import model_to_dict
-
+from django.forms import modelform_factory
+from django import forms
 
 def index(request):
 	"""
@@ -41,3 +45,67 @@ class EmployeeListView(ListView):
 	/staff/templates/staff/employee_list.html
 	"""
 	model = Employee
+
+class EmployeeDetailView(DetailView):
+	"""
+	Details of a specific guard
+	By default generic.DetailView loads the results of a query to
+	a template located in:
+	/application_name/templates/application_name/the_model_name_detail.html
+	in our case:
+	/staff/templates/staff/employee_detail.html
+	"""
+	model = Employee
+	
+class EmployeeCreateView(CreateView):
+    """
+	Create a guard
+	By default generic.CreateView loads the results of a query to
+	a template located in:
+	/application_name/templates/application_name/the_model_name_form.html
+	in our case:
+	/staff/templates/staff/employee_form.html
+    Changing attribute 'template_name_suffix' to '_create_form'
+    would cause the default template_name to be
+    /staff/templates/staff/employee_create_form.html
+	"""
+    model = Employee
+    fields = '__all__'
+    template_name_suffix = '_create_form';
+    
+class EmployeeUpdateView(UpdateView):
+    """
+	Update a guard
+	By default generic.UpdateView loads the results of a query to
+	a template located in:
+	/application_name/templates/application_name/the_model_name_form.html
+	in our case:
+	/staff/templates/staff/employee_form.html
+    Changing attribute 'template_name_suffix' to '_update_form'
+    would cause the default template_name to be
+    /staff/templates/staff/employee_update_form.html
+	"""
+    model = Employee
+    #fields = '__all__'
+    
+    template_name_suffix = '_update_form'
+    form_class = modelform_factory(
+                                   Employee,
+                                   fields = '__all__',
+                                   error_messages={'date_of_birth':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'}},
+                                   # Used widgets to set a date format, now format is set via DATE_INPUT_FORMATS in settings.py
+                                   #widgets= {
+                                   #          'date_of_birth':forms.DateInput(format='%d.%m.%Y', attrs={'class': 'form-control'}),
+                                   #          'passport_issue_date':forms.DateInput(format='%d.%m.%Y', attrs={'class': 'form-control'}),
+                                   #         }
+                                  )
+    '''
+    def get_initial(self):
+        """
+        Returns the initial data to use for forms on this view.
+        """
+        initial = super(EmployeeUpdateView, self).get_initial()
+        #initial['date_of_birth'] = '123'
+        return initial
+    '''
+    

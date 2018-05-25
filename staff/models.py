@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse #Used to generate URLs by reversing the URL patterns
 
 class Employee(models.Model):
 	"""
@@ -6,7 +7,8 @@ class Employee(models.Model):
 	"""
 	first_name = models.CharField(max_length=100, verbose_name="Имя")
 	last_name = models.CharField(max_length=100, verbose_name="Фамилия")
-	middle_name = models.CharField(max_length=100, blank=True, null=True, verbose_name="Отчество")
+	#middle_name = models.CharField(max_length=100, blank=True, null=True, verbose_name="Отчество")
+	middle_name = models.CharField(max_length=100, blank=True, null=False, default = "", verbose_name="Отчество")
 	
 	phone_number = models.CharField(max_length=100, blank=True, null=True, verbose_name="Номер телефона")
 	
@@ -21,8 +23,10 @@ class Employee(models.Model):
 	apartment = models.CharField(max_length=100, blank=True, null=True, verbose_name="Квартира")
 	# blank=True - the field on the site page could be left blank, is not required
 	# null=True allows the database to store a Null value if the field left blank
-	date_of_birth = models.DateField(blank=True, null=True, verbose_name="Дата рождения")
+	date_of_birth = models.DateField(blank=True, null=True, verbose_name="Дата рождения", error_messages={'invalid': 'this field is invalid'})
 
+	license_number = models.CharField(max_length=100, blank=True, null=True, verbose_name="Номер удостоверения")
+	license_valid_thru = models.DateField(blank=True, null=True, verbose_name="Удостоверение действительно до")
 	# In order for paginator to work and represent results in some
 	# order, we have to set ordering property in Meta class.
 	# Another reason is to control the default ordering of records
@@ -35,6 +39,16 @@ class Employee(models.Model):
 		String for representing the Model object.
 		"""
 		return f'{self.last_name}, {self.first_name}'
+		
+	def get_absolute_url(self):
+		"""
+		Returns the url to access a detail record for this empolyee.
+		"""
+		return reverse('employee-detail', args=[str(self.id)])
+	
+	def	dict_of_fields_and_values(self):
+		return {getattr(self,k):v for (k, v) in self.__dict__.items() if not k.startswith('_') and not callable(k)}
+	
 		
 class PageContent(models.Model):
 	"""
