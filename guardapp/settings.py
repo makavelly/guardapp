@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 	'staff.apps.StaffConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -120,7 +121,8 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+#LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 #TIME_ZONE = 'UTC'
 TIME_ZONE = 'Asia/Yekaterinburg'
@@ -144,7 +146,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "node_modules"),
 ]
 
-# add common russian date format
+# add common russian date format for date input
+# insert it into very beginning to make it default
 #en_formats.DATE_INPUT_FORMATS += ["%d.%m.%Y"]
 en_formats.DATE_INPUT_FORMATS.insert(0, "%d.%m.%Y")
 '''
@@ -157,3 +160,23 @@ DATE_INPUT_FORMATS is a list already containing
     '%d %B %Y', '%d %B, %Y',            # '25 October 2006', '25 October, 2006'
 ]
 '''
+# DATE_FORMAT: The default formatting to use for displaying date fields in any part of the system.
+# Note that if USE_L10N is set to True,
+# then the locale-dictated format has higher precedence and will be applied instead.
+#DATE_FORMAT = 'd.m.Y'
+
+# Django provides format definitions for many locales, but sometimes you might want to create your own,
+# because a format files doesn’t exist for your locale, or because you want to overwrite some of the values.
+# To use custom formats, specify the path where you’ll place format files first.
+# To do that, just set your FORMAT_MODULE_PATH setting to the package where format files will exist
+# Files are not placed directly in this directory, but in a directory named as the locale, and must be named formats.py.
+# To customize the English formats, a structure like this would be needed:
+# mysite/
+#    formats/
+#        __init__.py
+#        en/
+#            __init__.py
+#            formats.py
+FORMAT_MODULE_PATH = [
+    'formats',
+]

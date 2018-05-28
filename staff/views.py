@@ -92,7 +92,14 @@ class EmployeeUpdateView(UpdateView):
     form_class = modelform_factory(
                                    Employee,
                                    fields = '__all__',
-                                   error_messages={'date_of_birth':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'}},
+                                   error_messages={
+                                                   'date_of_birth':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
+                                                   'passport_issue_date':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
+                                                   'license_valid_thru':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
+                                                   },
+                                   help_texts = {
+                                                 'date_of_birth': 'Введите дату в формате дд.мм.гггг, например: 01.01.1970',
+                                                }
                                    # Used widgets to set a date format, now format is set via DATE_INPUT_FORMATS in settings.py
                                    #widgets= {
                                    #          'date_of_birth':forms.DateInput(format='%d.%m.%Y', attrs={'class': 'form-control'}),
