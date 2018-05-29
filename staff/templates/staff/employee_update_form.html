@@ -1,12 +1,12 @@
-<!-- https://simpleisbetterthancomplex.com/article/2017/08/19/how-to-render-django-form-manually.html -->
 {% extends "staff/__base.html" %}
-{% load model_field_names %}
+{% load staff_extras %}
 {% load widget_tweaks %}
 
 {% block title %}
 <title>Информация о сотруднике</title>
 {% endblock %}
 
+{% block nav_active_employees %}active{% endblock %}
 
 {% block sidebar %}
 <div class="well bs-sidebar" id="sidebar" >
@@ -55,6 +55,10 @@
   {% csrf_token %}
   <fieldset>
     <legend></legend>
+    {% for hidden_field in form.hidden_fields %}
+      {{ hidden_field }}
+    {% endfor %}
+
     {% if form.non_field_errors %}
       <div class="alert alert-danger" role="alert">
         {% for error in form.non_field_errors %}
@@ -63,31 +67,46 @@
       </div>
     {% endif %}
 
-    {% for field in form %}
+    {% for field in form.visible_fields %}
       <div class="form-group row">
-        <label for="{{ field.id_for_label }}" class="col-sm-2 col-form-label"><strong>{{ field.label }}:</strong></label>
+
+        <label for="{{ field.id_for_label }}" class="col-sm-2 col-form-label text-right">
+          {{ field.label }}
+          {% if field.field.required %}
+            <br>
+            <small class="form-text text-muted">обязательное поле</small>
+          {% endif %}
+        </label>
       
         <div class="col-sm-6">
-          {% if field.errors %}
-            {{ field|add_class:"form-control is-invalid" }}
-            <div class="invalid-feedback">
-              {% for error in  field.errors %}{{ error }}{% endfor %}
-            </div>
-          {% else %}
-            
-            {% if field.help_text %}
-              {% render_field field class="form-control" aria-describedby="helpBlock" %}
-              {% comment %}
-              {{ field|add_class:"form-control"|attr:"aria-describedby:field.id_for_label helpBlock" }}
-              {% endcomment %}
-            
-              <small id="{{ field.id_for_label }}" class="form-text text-muted">
-                {{ field.help_text }}
-              </small>
+          {% if form.is_bound %}
+            {% if field.errors %}
+              {{ field|add_class:"form-control is-invalid" }}
+              {% for error in field.errors %}
+                <div class="invalid-feedback">
+                  {{ error }}
+                </div>
+              {% endfor %}
             {% else %}
-              {{ field|add_class:"form-control" }}
+              {{ field|add_class:"form-control is-valid" }}
+            {% endif %}
+          {% else %}
+            {% if field.help_text %}
+              {% with field.id_for_label|addstr:"_helpBlock" as help_id %}
+                {% render_field field class="form-control" aria-describedby=help_id %}
+              {% endwith %}
+            {% else %}
+              {% render_field field class="form-control" %}
             {% endif %}
           {% endif %}
+          
+          {% if field.help_text %}
+            <small id="{{ field.id_for_label }}_helpBlock" class="form-text text-muted">
+              {{ field.help_text }}
+            </small>
+          {% endif %}
+          
+
         </div>
       </div>
       
@@ -113,18 +132,16 @@
       
     {% endfor %}
   </fieldset>
-  <br>
 
-  <div class="form-group">
+
+  <!--div class="form-group">
     <input type="submit" class="btn btn-primary" value="Сохранить" />
     <a class="btn btn-outline-secondary" href="{% url 'employees' %}" role="button">Отмена</a>
-  </div>
-  <!--div class="row">
-    <div class="col-sm-2">
+  </div-->
+  <div class="form-group row">
+    <div class="col-sm-8 text-right">
       <input type="submit" class="btn btn-primary" value="Сохранить" />
-    </div>
-    <div class="col-sm">
-      <a class="btn btn-secondary" href="{% url 'employees' %}" role="button">Отмена</a>
+      <a class="btn btn-outline-secondary" href="{% url 'employees' %}" role="button">Отмена</a>
     </div>
   </div-->
 </form>

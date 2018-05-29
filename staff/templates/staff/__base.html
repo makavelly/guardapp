@@ -10,7 +10,7 @@
 	<!--link rel="stylesheet" href="{% static 'staff/css/bootstrap.min.css' %}" type = "text/css"/-->
 	<link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" type = "text/css"/>
 	<!-- Custom styles for this template -->
-	<link rel="stylesheet" href="{% static 'staff/css/sticky-footer.css' %}" />
+	<link rel="stylesheet" href="{% static 'staff/css/my_custom.css' %}" />
 
 	<link rel="shortcut icon" href="{% static 'staff/img/myIcon2.ico' %}" type="image/x-icon">
 	<link rel="icon" href="{% static 'staff/img/myIcon2.ico' %}" type="image/x-icon">
@@ -33,19 +33,19 @@
 		
 		<div class="collapse navbar-collapse" id="navbarNavDropdown">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item">
+				<li class="nav-item {% block nav_active_home %}{% endblock %}">
 					<a class="nav-link" href="{% url 'index' %}">Главная<span class="sr-only">(current)</span></a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {% block nav_active_employees %}{% endblock %}">
 					<a class="nav-link" href="{% url 'employees' %}">Личный состав</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {% block nav_active_bases %}{% endblock %}">
 					<a class="nav-link" href="{% url 'index' %}">Объекты</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {% block nav_active_weapon %}{% endblock %}">
 					<a class="nav-link" href="{% url 'index' %}">Оружие</a>
 				</li>
-				<li class="nav-item">
+				<li class="nav-item {% block nav_active_contracts %}{% endblock %}">
 					<a class="nav-link" href="{% url 'index' %}">Договоры</a>
 				</li>
 				<!--li class="nav-item dropdown">
@@ -124,14 +124,14 @@
 	<script src="{% static 'popper.js/dist/umd/popper.min.js' %}"></script>
 	<script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
 	<script>{% block scripts %}{% endblock %}</script>
-    <script>
+    <!--script>
       $(document).ready(function() {
         $("#navbarNavDropdown .navbar-nav a").on("click", function(){
           $("#navbarNavDropdown .navbar-nav").find("li.active").removeClass("active");
           $(this).parent("li").addClass("active");
         });
       });
-    </script>
+    </script-->
 	
 	<!--script src="{% static 'staff/js/jquery-3.3.1.min.js' %}"></script>
 	<script src="{% static 'staff/js/popper.min.js' %}"></script>

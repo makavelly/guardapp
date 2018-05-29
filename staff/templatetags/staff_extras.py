@@ -21,3 +21,8 @@ def get_model_field_value(instance, field_name):
     Returns field value by a field_name of a model instance.
     """
     return getattr(instance, field_name)
+    
+@register.filter
+def addstr(arg1, arg2):
+    """Returns concatenated args"""
+    return str(arg1) + str(arg2)

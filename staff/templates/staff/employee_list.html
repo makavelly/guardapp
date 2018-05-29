@@ -1,9 +1,11 @@
 {% extends "staff/__base.html" %}
-{% load model_field_names %}
+{% load staff_extras %}
 
 {% block title %}
 <title>Список сотрудников</title>
 {% endblock %}
+
+{% block nav_active_employees %}active{% endblock %}
 
 {% comment %}
 {% block scripts %}
@@ -108,16 +110,6 @@ $(document).ready(function(){
 					</a>
 				  </td>
 				  <td>{{ employee.date_of_birth|date:'d.m.Y' }}</td>
-				<!--td>{{ employee.first_name }}</td>
-				<td>{{ employee.last_name }}</td>
-				<td>{{ employee.date_of_birth|date:'d.m.Y' }}</td-->
-				<!--{% for field in field_list %}
-					{% if field.verbose_name == "ID" %}
-						<td style="display:none;">{% get_model_field_value employee field.name %}</td>
-					{% else %}
-						<td>{% get_model_field_value employee field.name %}</td>
-					{% endif %}
-				{% endfor %}-->
 				
 				</tr>
 				{% endfor %}

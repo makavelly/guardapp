@@ -70,8 +70,17 @@ class EmployeeCreateView(CreateView):
     /staff/templates/staff/employee_create_form.html
 	"""
     model = Employee
-    fields = '__all__'
+    #fields = '__all__'
     template_name_suffix = '_create_form';
+    form_class = modelform_factory(
+        Employee,
+        fields = '__all__',
+        help_texts = {
+            'date_of_birth': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+            'passport_issue_date': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+            'license_valid_thru': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+        }
+    )
     
 class EmployeeUpdateView(UpdateView):
     """
@@ -90,22 +99,25 @@ class EmployeeUpdateView(UpdateView):
     
     template_name_suffix = '_update_form'
     form_class = modelform_factory(
-                                   Employee,
-                                   fields = '__all__',
-                                   error_messages={
-                                                   'date_of_birth':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
-                                                   'passport_issue_date':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
-                                                   'license_valid_thru':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
-                                                   },
-                                   help_texts = {
-                                                 'date_of_birth': 'Введите дату в формате дд.мм.гггг, например: 01.01.1970',
-                                                }
-                                   # Used widgets to set a date format, now format is set via DATE_INPUT_FORMATS in settings.py
-                                   #widgets= {
-                                   #          'date_of_birth':forms.DateInput(format='%d.%m.%Y', attrs={'class': 'form-control'}),
-                                   #          'passport_issue_date':forms.DateInput(format='%d.%m.%Y', attrs={'class': 'form-control'}),
-                                   #         }
-                                  )
+        Employee,
+        fields = '__all__',
+        #error_messages={
+        #    'date_of_birth':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
+        #    'passport_issue_date':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
+        #    'license_valid_thru':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
+        #},
+        
+        help_texts = {
+            'date_of_birth': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+            'passport_issue_date': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+            'license_valid_thru': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+        }
+        # Used widgets to set a date format, now format is set via DATE_INPUT_FORMATS in settings.py
+        #widgets= {
+        #    'date_of_birth':forms.DateInput(format='%d.%m.%Y', attrs={'class': 'form-control'}),
+        #    'passport_issue_date':forms.DateInput(format='%d.%m.%Y', attrs={'class': 'form-control'}),
+        #}
+    )
     '''
     def get_initial(self):
         """
