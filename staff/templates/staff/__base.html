@@ -10,7 +10,7 @@
 	<!--link rel="stylesheet" href="{% static 'staff/css/bootstrap.min.css' %}" type = "text/css"/-->
 	<link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" type = "text/css"/>
 	<!-- Custom styles for this template -->
-	<link rel="stylesheet" href="{% static 'staff/css/my_custom.css' %}" />
+	<link rel="stylesheet" href="{% static 'staff/css/staff_extras.css' %}" type = "text/css"/>
 
 	<link rel="shortcut icon" href="{% static 'staff/img/myIcon2.ico' %}" type="image/x-icon">
 	<link rel="icon" href="{% static 'staff/img/myIcon2.ico' %}" type="image/x-icon">
@@ -19,7 +19,7 @@
 	
 </head>
 
-<body class="body" style="background-color:#f6f6f6">
+<body class="body" style="background-color:#f6f6f6" {% block body_id %}{% endblock %}>
 
 	<!-- The upper navbar -->
 	<!-- nav class="navbar navbar-expand-sm navbar-dark bg-dark"-->
@@ -33,19 +33,19 @@
 		
 		<div class="collapse navbar-collapse" id="navbarNavDropdown">
 			<ul class="navbar-nav mr-auto">
-				<li class="nav-item {% block nav_active_home %}{% endblock %}">
+				<li class="nav-item {% block nav_active_home %}{% endblock %}" id="nav-home-page-id">
 					<a class="nav-link" href="{% url 'index' %}">Главная<span class="sr-only">(current)</span></a>
 				</li>
-				<li class="nav-item {% block nav_active_employees %}{% endblock %}">
+				<li class="nav-item {% block nav_active_employees %}{% endblock %}" id="nav-employees-page-id">
 					<a class="nav-link" href="{% url 'employees' %}">Личный состав</a>
 				</li>
-				<li class="nav-item {% block nav_active_bases %}{% endblock %}">
+				<li class="nav-item {% block nav_active_bases %}{% endblock %}" id="nav-bases-page-id">
 					<a class="nav-link" href="{% url 'index' %}">Объекты</a>
 				</li>
-				<li class="nav-item {% block nav_active_weapon %}{% endblock %}">
+				<li class="nav-item {% block nav_active_weapon %}{% endblock %}" id="nav-weapon-page-id">
 					<a class="nav-link" href="{% url 'index' %}">Оружие</a>
 				</li>
-				<li class="nav-item {% block nav_active_contracts %}{% endblock %}">
+				<li class="nav-item {% block nav_active_contracts %}{% endblock %}" id="nav-contracts-page-id">
 					<a class="nav-link" href="{% url 'index' %}">Договоры</a>
 				</li>
 				<!--li class="nav-item dropdown">
