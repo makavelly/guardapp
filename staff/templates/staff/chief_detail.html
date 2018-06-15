@@ -2,7 +2,7 @@
 {% load staff_extras %}
 
 {% block title %}
-<title>Информация о сотруднике</title>
+<title>Информация о руководителе</title>
 {% endblock %}
 
 {% block body_id %}id="employees-page-id"{% endblock %}
@@ -31,11 +31,11 @@
 
 {% block content %}
 
-  <h2>Информация о сотруднике</h2>
+  <h2>Информация о руководителе</h2>
   <br>
 	<br>
 
-  {% if employee %}
+  {% if chief %}
 
   <div class="row">
     <div class="col-sm-8">
@@ -45,7 +45,7 @@
           <span><strong>ФИО: </strong></span>
         </div>
         <div class="col-sm">
-          {{ employee.last_name }} {{ employee.first_name }} {{ employee.middle_name|default:"" }}
+          {{ chief.last_name }} {{ chief.first_name }} {{ chief.middle_name|default:"" }}
         </div>
       </div>
       <hr>
@@ -56,7 +56,7 @@
           <strong>Дата рождения: </strong>
         </div>
         <div class="col-sm">
-          {{ employee.date_of_birth|date:'d.m.Y'|default:"--" }}
+          {{ chief.date_of_birth|date:'d.m.Y'|default:"--" }}
         </div>
       </div>
       <hr>
@@ -66,7 +66,7 @@
           <strong>Номер удостоверения: </strong>
         </div>
         <div class="col-sm">
-          {{ employee.license_number|default_if_none:"--"|default:"--" }}
+          {{ chief.license_number|default_if_none:"--"|default:"--" }}
         </div>
       </div>
       <hr>
@@ -76,7 +76,7 @@
           <strong>Удостоверение действительно до: </strong>
         </div>
         <div class="col-sm">
-          {{ employee.license_valid_thru|default_if_none:"--"|default:"--" }}
+          {{ chief.license_valid_thru|default_if_none:"--"|default:"--" }}
         </div>
       </div>
       <hr>
@@ -86,7 +86,7 @@
           <strong>Номер телефона: </strong>
         </div>
         <div class="col-sm">
-          {{ employee.phone_number|default_if_none:"--" }}
+          {{ chief.phone_number|default_if_none:"--" }}
         </div>
       </div>
       <hr>
@@ -96,7 +96,7 @@
           <strong>Номер паспорта: </strong>
         </div>
         <div class="col-sm">
-          {{ employee.passport_number|default_if_none:"--" }}
+          {{ chief.passport_number|default_if_none:"--" }}
         </div>
       </div>
       <hr>
@@ -106,8 +106,8 @@
           <strong>Кем и когда выдан паспорт: </strong>
         </div>
         <div class="col-sm">
-          {{ employee.passport_issued_by|default_if_none:"кем выдан - неизвестно" }}, 
-          {% if employee.passport_issue_date %}{{ employee.passport_issue_date|date:'d.m.Y' }}{% else %}когда выдан - неизвестно{% endif %}
+          {{ chief.passport_issued_by|default_if_none:"кем выдан - неизвестно" }}, 
+          {% if chief.passport_issue_date %}{{ chief.passport_issue_date|date:'d.m.Y' }}{% else %}когда выдан - неизвестно{% endif %}
         </div>
       </div>
       <hr>
@@ -117,11 +117,11 @@
           <strong>Адрес: </strong>
         </div>
         <div class="col-sm">
-          {{ employee.city|default_if_none:"город неизвестен" }}, 
-          {{ employee.street|default_if_none:"улица неизвестна" }}, 
-          {{ employee.building|default_if_none:"номер дома неизвестен" }}, 
-          {% if employee.wing %}{{ employee.wing }}, {% endif %}
-          {{ employee.apartment|default_if_none:"квартира неизвестна" }}
+          {{ chief.city|default_if_none:"город неизвестен" }}, 
+          {{ chief.street|default_if_none:"улица неизвестна" }}, 
+          {{ chief.building|default_if_none:"номер дома неизвестен" }}, 
+          {% if chief.wing %}{{ chief.wing }}, {% endif %}
+          {{ chief.apartment|default_if_none:"квартира неизвестна" }}
         
         </div>
       </div>
@@ -129,28 +129,27 @@
       
       <div class="row">
         <div class="col-sm-3">
-          <strong>Руководитель: </strong>
+          <strong>Подчиненные: </strong>
         </div>
         <div class="col-sm">
-          {% if employee.chief %}
-            <a href="{{ employee.chief.get_absolute_url }}">
-              {{ employee.chief.last_name }} {{ employee.chief.first_name }} {{ employee.chief.middle_name }}
+          {% for employee in chief.employee_set.all %}
+            <a href="{{ employee.get_absolute_url }}">
+              {{ employee.last_name }} {{ employee.first_name }} {{ employee.middle_name }}
             </a>
-          {% else %}
-            <div>не назначен</div>
-          {% endif %}
+            <br>
+          {% endfor %}
         </div>
       </div>
       <hr>
       
+      
+      
       <div class="row">
         <div class="col-sm-3">
-          <!--a class="btn btn-primary" href="{% url 'employee-update' employee.id %}" role="button">Редактировать</a>
-          <a class="btn btn-outline-secondary" href="{% url 'employees' %}" role="button">Отмена</a-->
         </div>
         <div class="col-sm text-right">
-          <a class="btn btn-outline-secondary" href="{% url 'employees' %}" role="button">Отмена</a>
-          <a class="btn btn-primary" href="{% url 'employee-update' employee.id %}" role="button">Редактировать</a>
+          <a class="btn btn-outline-secondary" href="{% url 'chiefs' %}" role="button">Отмена</a>
+          <a class="btn btn-primary" href="{% url 'chief-update' chief.id %}" role="button">Редактировать</a>
         </div>
       </div>
       <br>
@@ -159,7 +158,7 @@
     </div>
   </div>
   {% else %}
-    <p>Информация о сотруднике отсутствует</p>
+    <p>Информация о руководителе отсутствует</p>
   {% endif %}
 	
 

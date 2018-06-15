@@ -6,10 +6,14 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from .my_lib.views import ListView
 from .my_lib.views import DetailView
 from .models import Employee
+from .models import Chief
 from .models import PageContent
+#from .forms import EmployeeFormSet
 from django.forms.models import model_to_dict
 from django.forms import modelform_factory
+from django.forms import inlineformset_factory
 from django import forms
+from django.db import transaction
 
 def index(request):
 	"""
@@ -128,3 +132,118 @@ class EmployeeUpdateView(UpdateView):
         return initial
     '''
     
+class ChiefListView(ListView):
+	"""
+	List of all chiefs in a company
+	By default generic.ListView loads the results of a query to
+	a template located in:
+	/application_name/templates/application_name/the_model_name_list.html
+	in our case:
+	/staff/templates/staff/chief_list.html
+	"""
+	model = Chief
+    
+class ChiefCreateView(CreateView):
+    """
+	Create a Chief
+	By default generic.CreateView loads the results of a query to
+	a template located in:
+	/application_name/templates/application_name/the_model_name_form.html
+	in our case:
+	/staff/templates/staff/chief_form.html
+    Changing attribute 'template_name_suffix' to '_create_form'
+    would cause the default template_name to be
+    /staff/templates/staff/chief_create_form.html
+	"""
+    model = Chief
+    #fields = '__all__'
+    template_name_suffix = '_create_form';
+    form_class = modelform_factory(
+        Chief,
+        fields = '__all__',
+        help_texts = {
+            'date_of_birth': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+            'passport_issue_date': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+            'license_valid_thru': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+        }
+    )
+    
+class ChiefDetailView(DetailView):
+	"""
+	Details of a specific Chief
+	By default generic.DetailView loads the results of a query to
+	a template located in:
+	/application_name/templates/application_name/the_model_name_detail.html
+	in our case:
+	/staff/templates/staff/chief_detail.html
+	"""
+	model = Chief
+    
+class ChiefUpdateView(UpdateView):
+    """
+	Update a Chief
+	By default generic.UpdateView loads the results of a query to
+	a template located in:
+	/application_name/templates/application_name/the_model_name_form.html
+	in our case:
+	/staff/templates/staff/chief_form.html
+    Changing attribute 'template_name_suffix' to '_update_form'
+    would cause the default template_name to be
+    /staff/templates/staff/chief_update_form.html
+	"""
+    model = Chief
+    #fields = '__all__'
+    
+    template_name_suffix = '_update_form'
+    form_class = modelform_factory(
+        Chief,
+        fields = '__all__',
+        #error_messages={
+        #    'date_of_birth':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
+        #    'passport_issue_date':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
+        #    'license_valid_thru':{'invalid':'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970'},
+        #},
+        
+        help_texts = {
+            'date_of_birth': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+            'passport_issue_date': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+            'license_valid_thru': 'Пожалуйста, укажите дату в формате дд.мм.гггг, например: 01.01.1970',
+        }
+        # Used widgets to set a date format, now format is set via DATE_INPUT_FORMATS in settings.py
+        #widgets= {
+        #    'date_of_birth':forms.DateInput(format='%d.%m.%Y', attrs={'class': 'form-control'}),
+        #    'passport_issue_date':forms.DateInput(format='%d.%m.%Y', attrs={'class': 'form-control'}),
+        #}
+    )
+    
+    # If you want to edit the foreign key relationship with this form,
+    # you should treat the inlineformset as an additional form that the generic view needs to process.
+    # You need to initialize the formset with GET() and inject it into context.
+    # With POST(), we need to call the save() method.
+    def get_context_data(self, **kwargs):
+        data = super(ChiefUpdateView, self).get_context_data(**kwargs)
+        EmployeeFormSet = inlineformset_factory(Chief, Employee, fields=('first_name', 'last_name'), extra=1)
+        #EmployeeFormSet = inlineformset_factory(Chief, Employee, fields='__all__', extra=1)
+        if self.request.POST:
+            # Create a formset instance to edit an existing model object (instance=self.get_object()),
+            # but use POST data to populate the formset (self.request.POST).
+            data['employees'] = EmployeeFormSet(self.request.POST, instance=self.get_object())
+        else:
+            # Create a formset instance with the data from model object and add it to context
+            data['employees'] = EmployeeFormSet(instance=self.get_object())
+        return data
+        
+    def form_valid(self, form):
+        context = self.get_context_data()
+        employees = context['employees']
+        with transaction.atomic():
+            self.object = form.save()
+
+            if employees.is_valid():
+                employees.instance = self.object
+                employees.save()
+            else:
+                context.update({'employees': employees})
+                return self.render_to_response(context)
+                 
+        return super(ChiefUpdateView, self).form_valid(form)

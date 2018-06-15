@@ -1,0 +1,114 @@
+{% load static %}
+<!doctype html>
+
+<html lang="ru">
+  <head>
+    {% include staff/_meta_tags.html %}
+    
+    <title>
+      {% block title %}ЦЭБУР-ГАРД{% endblock %}
+    </title>
+    
+    {% block stylesheets %}
+    <!-- Bootstrap CSS -->
+      <!--link rel="stylesheet" href="{% static 'staff/css/bootstrap.min.css' %}" type = "text/css"/-->
+      <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}" type = "text/css"/>
+      <!-- Custom styles for this app -->
+      <link rel="stylesheet" href="{% static 'staff/css/staff_extras.css' %}" type = "text/css"/>
+    {% endblock %}
+
+    {% include staff/_icon_link.html %}
+  </head>
+
+  <body class="body" style="background-color:#f6f6f6" {% block body_id %}{% endblock %}>
+
+    {% include staff/_navigation.html %}
+    
+    <!-- The upper navbar -->
+    <!-- nav class="navbar navbar-expand-sm navbar-dark bg-dark"-->
+    <nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #204B99;">
+      <a class="navbar-brand" href="{% url 'index' %}">
+        <img src="{% static 'staff/img/logo.png' %}" class="responsive-img" style='max-height:100px;border:0;' alt="A snake logo of a company"> 
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item {% block nav_active_home %}{% endblock %}" id="nav-home-page-id">
+            <a class="nav-link" href="{% url 'index' %}">Главная<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item {% block nav_active_employees %}{% endblock %}" id="nav-employees-page-id">
+            <a class="nav-link" href="{% url 'employees' %}">Персонал</a>
+          </li>
+          <li class="nav-item {% block nav_active_bases %}{% endblock %}" id="nav-bases-page-id">
+            <a class="nav-link" href="{% url 'index' %}">Объекты</a>
+          </li>
+          <li class="nav-item {% block nav_active_weapon %}{% endblock %}" id="nav-weapon-page-id">
+            <a class="nav-link" href="{% url 'index' %}">Оружие</a>
+          </li>
+          <li class="nav-item {% block nav_active_contracts %}{% endblock %}" id="nav-contracts-page-id">
+            <a class="nav-link" href="{% url 'index' %}">Договоры</a>
+          </li>
+          <!--li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Выпадающий список
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <a class="dropdown-item" href="#">Выбор №1</a>
+              <a class="dropdown-item" href="#">Выбор №2</a>
+              <a class="dropdown-item" href="#">Что-то еще</a>
+            </div>
+           </li-->
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Поиск" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+        </form>
+      </div>
+      
+    </nav>
+
+
+    <div class="container-fluid" >
+
+      <div class="row">
+        <!-- The sidebar to the left -->
+        <div class="col-sm-2">
+        <br>
+          {% block sidebar %}
+          {% comment %}
+          <div class="well bs-sidebar" id="sidebar" style="background-color:#fff">
+            <nav class="nav flex-column nav-pills">
+              <!--a class="nav-link" data-toggle="pill" href="{% url 'employees' %}">Список сотрудников</a-->
+              <a class="nav-link" data-toggle="pill" href="#">Начальники охраны</a>
+              <a class="nav-link" data-toggle="pill" href="#">Оружие</a>
+            </nav>
+          </div>
+          {% endcomment %}
+          {% endblock %}
+        </div> <!--col-sm-2-->
+        
+        <!-- Main area -->
+        <div class="col-sm-10">
+        
+          <div class='container-fluid'>
+            <br>
+            {% block content %}{% endblock %}	
+          </div>
+        </div> <!--col-sm-10-->
+      </div> <!--row-->
+    </div>
+
+    {% block javascript %}
+      <!-- Bootstrap core JavaScript
+        ================================================== -->
+      <script src="{% static 'jquery/dist/jquery.slim.min.js' %}"></script>
+      <script src="{% static 'popper.js/dist/umd/popper.min.js' %}"></script>
+      <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    {% endblock %}
+
+  </body>
+
+</html>

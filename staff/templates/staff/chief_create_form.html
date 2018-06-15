@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 
 {% block title %}
-<title>Добавить сотрудника</title>
+<title>Добавить руководителя</title>
 {% endblock %}
 
 {% comment %}
@@ -14,7 +14,7 @@
 <div class="well bs-sidebar" id="sidebar" >
   <nav class="nav flex-column">
     <!--a class="nav-link" data-toggle="pill" href="{% url 'employees' %}">Список сотрудников</a-->
-    <a class="nav-link active"  href="{% url 'employees' %}">Сотрудники</a>
+    <a class="nav-link"  href="{% url 'employees' %}">Сотрудники</a>
     <a class="nav-link" href="{% url 'chiefs' %}">Руководители</a>
     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Добавить сотрудника</a>
     <div class="dropdown-menu">
@@ -30,7 +30,7 @@
 
 {% block content %}
 
-  <h2>Новый сотрудник</h2>
+  <h2>Новый руководитель</h2>
     <br>
 	<br>
 
@@ -95,7 +95,7 @@
 
   <div class="form-group row">
     <div class="col-sm-8 text-right">
-      <a class="btn btn-outline-secondary" href="{% url 'employees' %}" role="button">Отмена</a>
+      <a class="btn btn-outline-secondary" href="{% url 'chiefs' %}" role="button">Отмена</a>
       <input type="submit" class="btn btn-primary" value="Сохранить" />
     </div>
   </div-->

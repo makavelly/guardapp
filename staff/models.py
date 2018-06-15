@@ -4,10 +4,10 @@ from django.urls import reverse #Used to generate URLs by reversing the URL patt
 class Person(models.Model):
     """
     Model representing a person
-    todo: translation into English
+    todo:   translation into English
     """
     # Some rules for model fields
-    # blank=True - the field on the site page could be left blank, is not required
+    # blank=True - the field on the site page (i.e. on the form) could be left blank, is not required
     # null=True allows the database to store a Null value if the field left blank
 
     # Required fields
@@ -51,11 +51,12 @@ class Person(models.Model):
         """
         String for representing the Model object.
         """
-        return f'{self.last_name}, {self.first_name}'
+        return f'{self.last_name} {self.first_name}'
         
 class Guard(Person):
     """
     A Guard is a Person with a special license
+    todo:   fired guards
     """
     license_number = models.CharField(max_length=100, blank=True, null=True, verbose_name="Номер удостоверения")
     license_valid_thru = models.DateField(blank=True, null=True, verbose_name="Удостоверение действительно до")
@@ -68,13 +69,14 @@ class Guard(Person):
 class Employee(Guard):
     """
     Model representing a guard in a security company
+    todo:   fired employees
     """
     # If a child class does not declare its own Meta class,
     # it will inherit the parent’s Meta.
     #class Meta:
     #    ordering = ["last_name", "first_name"]
 	
-    chief = models.ForeignKey('Chief', on_delete=models.SET_NULL, null=True)
+    chief = models.ForeignKey('Chief', on_delete=models.SET_NULL, blank=True, null=True, verbose_name="Руководитель")
     
     def get_absolute_url(self):
         """
