@@ -1,0 +1,27 @@
+{% extends "staff/__base.html" %}
+
+{% block title %}
+<title>ЦЭБУР-ГАРД Главная</title>
+{% endblock %}
+
+{% block body_id %}id="home-page-id"{% endblock %}
+
+{% comment %}
+{% block nav_active_home %}active{% endblock %}
+{% endcomment %}
+
+{% block content %}
+
+<h2>Гавная страница</h2>
+
+  {% if welcome_text %}
+    <p>{{ welcome_text }}</p>
+  {% else %}
+    <p>Приветствие не определено</p>
+  {% endif %}
+  <br>
+  
+<h3>Статистика</h3>
+  <p>Вы заходили на эту страницу {{ num_visits }} {% if num_visits == 1 or num_visits >= 5 %}раз{% else %}раза{% endif %}.</p>
+  
+{% endblock %}

@@ -1,13 +1,36 @@
-{% extends "staff/__l_left_sidebar.html" %}
-{% load staff_extras_tags %}
+{% extends "staff/__base.html" %}
+{% load staff_extras %}
 
-{% block title %}Информация о сотруднике | {{ block.super }}{% endblock %}
-
-{% block navigation %}
-  {% include "staff/_navigation.html" with current="employees" %}
+{% block title %}
+<title>Информация о сотруднике</title>
 {% endblock %}
 
-{% block main_col %}
+{% block body_id %}id="employees-page-id"{% endblock %}
+
+{% comment %}
+{% block nav_active_employees %}active{% endblock %}
+{% endcomment %}
+
+{% block sidebar %}
+<div class="well bs-sidebar" id="sidebar" >
+  <nav class="nav flex-column">
+    <!--a class="nav-link" data-toggle="pill" href="{% url 'employees' %}">Список сотрудников</a-->
+    <a class="nav-link active"  href="{% url 'employees' %}">Сотрудники</a>
+    <a class="nav-link" href="{% url 'chiefs' %}">Руководители</a>
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Добавить сотрудника</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="{% url 'employee-create' %}">рядового сотрудника</a>
+      <a class="dropdown-item" href="#">руководителя</a>
+    </div>
+
+  </nav>
+</div>
+<br>
+
+{% endblock %}
+
+{% block content %}
+
   <h2>Информация о сотруднике</h2>
   <br>
 	<br>
@@ -138,10 +161,8 @@
   {% else %}
     <p>Информация о сотруднике отсутствует</p>
   {% endif %}
-  
-{% endblock main_col %}
+	
 
-{% block side_col %}
-  {% include "staff/_side_bar_emloyees.html" %}
-{% endblock side_col %}
-
+	
+	
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "staff/__base.html" %}
+{% load staff_extras_tags %}
+
+{% block content %}
+
+<div class="row">
+  <!-- Main area -->
+  <div class="col-sm-10">
+    <br>
+    <div class='container-fluid'>
+      {% block main_col %}{% endblock %}	
+    </div>
+  </div> <!--col-sm-10-->
+  
+  <!-- The sidebar to the right -->
+  <div class="col-sm-2">
+    <br>
+    {% block side_col %}{% endblock %}
+  </div> <!--col-sm-2-->
+</div> <!--row-->
+	
+{% endblock %}
