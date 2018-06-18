@@ -11,8 +11,8 @@ class Person(models.Model):
     # null=True allows the database to store a Null value if the field left blank
 
     # Required fields
-    first_name = models.CharField(max_length=100, verbose_name="Имя")
     last_name = models.CharField(max_length=100, verbose_name="Фамилия")
+    first_name = models.CharField(max_length=100, verbose_name="Имя")
     #middle_name = models.CharField(max_length=100, blank=True, null=True, verbose_name="Отчество")
     middle_name = models.CharField(max_length=100, blank=True, null=False, default = "", verbose_name="Отчество")
 

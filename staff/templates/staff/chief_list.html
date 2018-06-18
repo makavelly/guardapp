@@ -1,0 +1,54 @@
+{% extends "staff/__l_left_sidebar.html" %}
+{% load staff_extras_tags %}
+
+{% block title %}Список руководителей | {{ block.super }}{% endblock %}
+
+{% block navigation %}
+  {% include "staff/_navigation.html" with current="employees" %}
+{% endblock %}
+
+{% block main_col %}
+
+  <h2>Список руководителей</h2>
+	<br>
+
+	{% if chief_list %}
+
+		<div class="table-responsive-sm">
+			<table class="table table-hover table-sm">
+			  <!--thead style="background-color: #204B99;color:white;"-->
+			  <thead class="thead-dark">
+				<tr>
+				  <th scope="col" style="display:none;">id</th>
+				  <th scope="col" >Руководители</th>
+				  <th scope="col" >Дата рождения</th>
+				</tr>
+			  </thead>
+			  <tbody>
+				{% for chief in chief_list %}
+				
+				<tr>
+				  <td style="display:none;">{% get_model_field_value chief "id" %}</td>
+				  <td>
+				    <a href="{{ chief.get_absolute_url }}">
+					  {{ chief.last_name }} {{ chief.first_name }} {{ chief.middle_name }}
+					</a>
+				  </td>
+				  <td>{{ chief.date_of_birth|date:'d.m.Y' }}</td>
+				
+				</tr>
+				{% endfor %}
+			  </tbody>
+			</table>
+		</div>
+
+		
+	{% else %}
+		<p>Список руководителей пуст</p>
+	{% endif %}
+  
+{% endblock main_col %}
+
+{% block side_col %}
+  {% include "staff/_side_bar_emloyees.html" %}
+{% endblock side_col %}

@@ -1,40 +1,21 @@
-{% extends "staff/__base.html" %}
-{% load staff_extras %}
+{% extends "staff/__l_left_sidebar.html" %}
+{% load staff_extras_tags %}
 {% load widget_tweaks %}
 
-{% block title %}
-<title>Добавить руководителя</title>
+{% block title %}Редактировать данные сотрудника | {{ block.super }}{% endblock %}
+
+{% block navigation %}
+  {% include "staff/_navigation.html" with current="employees" %}
 {% endblock %}
 
-{% comment %}
-{% block nav_active_employees %}active{% endblock %}
-{% endcomment %}
+{% block main_col %}
 
-{% block sidebar %}
-<div class="well bs-sidebar" id="sidebar" >
-  <nav class="nav flex-column">
-    <!--a class="nav-link" data-toggle="pill" href="{% url 'employees' %}">Список сотрудников</a-->
-    <a class="nav-link"  href="{% url 'employees' %}">Сотрудники</a>
-    <a class="nav-link" href="{% url 'chiefs' %}">Руководители</a>
-    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Добавить сотрудника</a>
-    <div class="dropdown-menu">
-      <a class="dropdown-item" href="{% url 'employee-create' %}">рядового сотрудника</a>
-      <a class="dropdown-item" href="#">руководителя</a>
-    </div>
-
-  </nav>
-</div>
+<h2>Редактировать данные сотрудника</h2>
+<br>
 <br>
 
-{% endblock %}
-
-{% block content %}
-
-  <h2>Новый руководитель</h2>
-    <br>
-	<br>
-
-  <form action="" method="post">
+<!-- Horizontal form -->
+<form action="" method="post">
   {% csrf_token %}
   <fieldset>
     <legend></legend>
@@ -95,29 +76,19 @@
 
   <div class="form-group row">
     <div class="col-sm-8 text-right">
-      <a class="btn btn-outline-secondary" href="{% url 'chiefs' %}" role="button">Отмена</a>
+      <!-- When Cancel is pressed - go back to employee list -->
+      <!--a class="btn btn-outline-secondary" href="{% url 'employees' %}" role="button">Отмена</a-->
+      <!-- When Cancel is pressed - go back to employee detail -->
+      <a class="btn btn-outline-secondary" href="{{ employee.get_absolute_url }}" role="button">Отмена</a>
       <input type="submit" class="btn btn-primary" value="Сохранить" />
     </div>
   </div-->
 </form>
 <br>
 <br>
-    <!--form action="" method="post">
-      {% csrf_token %}
-      <table>
-        {{ form.as_table }}
-      </table>
-      <br>
+  
+{% endblock main_col %}
 
-      <div class="row">
-        <div class="col-sm-2">
-          <input type="submit" class="btn btn-primary" value="Добавить сотрудника" />
-        </div>
-        <div class="col-sm">
-          <a class="btn btn-secondary" href="{% url 'employees' %}" role="button">Отмена</a>
-        </div>
-      </div>
-
-    </form-->
-
-{% endblock %}
+{% block side_col %}
+  {% include "staff/_side_bar_emloyees.html" %}
+{% endblock side_col %}

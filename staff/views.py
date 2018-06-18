@@ -220,6 +220,7 @@ class ChiefUpdateView(UpdateView):
     # you should treat the inlineformset as an additional form that the generic view needs to process.
     # You need to initialize the formset with GET() and inject it into context.
     # With POST(), we need to call the save() method.
+    '''
     def get_context_data(self, **kwargs):
         data = super(ChiefUpdateView, self).get_context_data(**kwargs)
         EmployeeFormSet = inlineformset_factory(Chief, Employee, fields=('first_name', 'last_name'), extra=1)
@@ -247,3 +248,4 @@ class ChiefUpdateView(UpdateView):
                 return self.render_to_response(context)
                  
         return super(ChiefUpdateView, self).form_valid(form)
+    '''
